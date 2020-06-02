@@ -16,7 +16,7 @@
     .grid-highlight {
       padding-top: 1rem;
       padding-bottom: 1rem;
-      background-color: #3498db;
+      background-color: #5c6ac4;
       border: 1px solid #202e78;
       color: #fff;
     }
@@ -71,6 +71,7 @@
             <ul class="polished-sidebar-menu ml-0 pt-4 p-0 d-md-block">
               <input class="border-dark form-control d-block d-md-none mb-4" type="text" placeholder="Search" aria-label="Search" />
               <li><a href="/home"><span class="oi oi-home"></span> Home</a></li>
+              <li><a href="{{route('users.index')}}"><span class="oi oi-people"></span> Manage users</a></li>
 
               <div class="d-block d-md-none">
                   <div class="dropdown-divider"></div>
@@ -93,7 +94,7 @@
               <div class="col-md-12 pl-3 pt-2">
                   <div class="pl-3">
                       <h3>@yield("pageTitle")</h3>
-                      <br/  
+                      <br/>  
                   </div>
               </div>
             </div>

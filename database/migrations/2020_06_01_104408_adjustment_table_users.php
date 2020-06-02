@@ -19,7 +19,7 @@ class AdjustmentTableUsers extends Migration
         $table->string("roles");
         $table->text("address");
         $table->string("phone");
-        $table->string("avatar");
+        $table->string("avatar")->nullable();
         $table->enum("status", ["ACTIVE", "INACTIVE"]);
       });
     }
