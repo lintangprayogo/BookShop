@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Bookshop @yield("title")</title>
-  <link rel="stylesheet" href="{{asset('polished/polished.min.css')}}">
+  <link rel="stylesheet" href="{{asset('polished/polished.css')}}">
   <link rel="stylesheet" href="{{asset('polished/iconic/css/open-iconic-bootstrap.min.css')}}">
 
   <style>
@@ -71,7 +71,9 @@
             <ul class="polished-sidebar-menu ml-0 pt-4 p-0 d-md-block">
               <input class="border-dark form-control d-block d-md-none mb-4" type="text" placeholder="Search" aria-label="Search" />
               <li><a href="/home"><span class="oi oi-home"></span> Home</a></li>
-              <li><a href="{{route('users.index')}}"><span class="oi oi-people"></span> Manage users</a></li>
+              <li><a href="{{route('users.index')}}"><span class="oi oi-people"></span> Manage Users</a></li>
+              <li><a href="{{route('categories.index')}}"><span class="oi oi-tag"></span> Manage Categories</a></li>
+
 
               <div class="d-block d-md-none">
                   <div class="dropdown-divider"></div>

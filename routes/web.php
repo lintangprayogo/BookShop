@@ -26,6 +26,13 @@ Route::match(["GET", "POST"], "/register", function(){
 
 Route::resource("users","UserController");
 
+Route::get('categories/trash',"CategoryController@trash")->name("categories.trash");
+Route::get('categories/{id}/restore',"CategoryController@restore")->name("categories.restore");
+Route::delete('categories/{id}/permanent-delete',"CategoryController@permanentDelete")->name("categories.delete-permanent");
+Route::resource("categories","CategoryController");
+
+
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes();
