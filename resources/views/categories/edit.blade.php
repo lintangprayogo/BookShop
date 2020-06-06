@@ -16,12 +16,12 @@
 
             <label>Category name</label>
             <input type="text" class="form-control" value="{{$category->name}}" name="name" />
-            <br><br>
+            <br>
 
 
             <label>Category slug</label>
             <input type="text" class="form-control" value="{{$category->slug}}" name="slug" />
-            <br><br>
+            <br>
 
             <label>Category slug</label>
             @if($category->image)
@@ -31,7 +31,7 @@
             
             <input type="file" class="form-control" name="image">
             <small class="text-muted">Leave blank if you don't want to change the picture</small>
-            <br><br>
+            <br>
 
             <input type="submit"  class="btn btn-primary" value="Update"/>
         </form>

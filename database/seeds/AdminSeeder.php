@@ -24,7 +24,7 @@ class AdminSeeder extends Seeder
             $administrator->roles = json_encode(["ADMIN"]);
             $administrator->password = \Hash::make("12345678");
             $administrator->phone = "081212367674";
-            $administrator->avatar = "avatars/saat-ini-tidak-ada-file.png";
+            $administrator->avatar = "avatars/blank.png";
             $administrator->address = "Sarmili, Bintaro, Tangerang Selatan";
 
             $administrator->save();
@@ -42,7 +42,7 @@ class AdminSeeder extends Seeder
             $administrator->roles = json_encode(["ADMIN"]);
             $administrator->password = \Hash::make("12345678");
             $administrator->phone = $faker->phoneNumber;
-            $administrator->avatar = "avatars/saat-ini-tidak-ada-file.png";
+            $administrator->avatar = "avatars/blank.png";
             $administrator->address = $faker->address;
             $administrator->save();
             $this->command->info("User Admin berhasil diinsert");
@@ -56,7 +56,7 @@ class AdminSeeder extends Seeder
             $staff->roles = json_encode(["STAFF"]);
             $staff->password = \Hash::make("12345678");
             $staff->phone = $faker->phoneNumber;
-            $staff->avatar = "avatars/saat-ini-tidak-ada-file.png";
+            $staff->avatar = "avatars/blank.png";
             $staff->address = $faker->address;
             $staff->save();
             $this->command->info("User Staff berhasil diinsert");
@@ -69,7 +69,7 @@ class AdminSeeder extends Seeder
             $customer->roles = json_encode(["STAFF"]);
             $customer->password = \Hash::make("12345678");
             $customer->phone = $faker->phoneNumber;
-            $customer->avatar = "avatars/saat-ini-tidak-ada-file.png";
+            $customer->avatar = "avatars/blank.png";
             $customer->address = $faker->address;
             $customer->save();
             $this->command->info("User Customer berhasil diinsert");
