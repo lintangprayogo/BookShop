@@ -39,4 +39,7 @@ Route::get('books/trash','BookController@trash')->name("books.trash");
 Route::resource('books', 'BookController');
 Route::get('/ajax/categories/search','BookController@ajaxSearch')->name('categories.ajax');
 
+Route::resource('orders', 'OrderController');
+
+
 Route::get('/home', 'HomeController@index')->name('home');

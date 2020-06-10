@@ -139,7 +139,7 @@ class CategoryController extends Controller
         } else {
             $categories = Category::onlyTrashed()->paginate(10);
         }
-        return view("categories.trashed", ['categories' => $categories]);
+        return view("categories.trash", ['categories' => $categories]);
     }
     public function restore($id)
     {

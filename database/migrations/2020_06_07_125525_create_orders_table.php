@@ -1,11 +1,10 @@
 <?php
 
-use App\Models\Category;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBookCategoryTable extends Migration
+class CreateOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,14 +13,15 @@ class CreateBookCategoryTable extends Migration
      */
     public function up()
     {
-        Schema::create('book_category', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('book_id')->nullable();
-            $table->unsignedBigInteger('category_id')->nullable();
+            $table->unsignedBigInteger("user_id")->nullable();
+            $table->float("total_price")->unsigned()->default(0);
+            $table->string("invoice_number");
+            $table->enum("status", ['SUBMIT', 'PROCESS', 'FINISH', 'CANCEL']);
             $table->timestamps();
-            $table->foreign('book_id')->references('id')->on('books')->onDelete('set null');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
-          
+            $table->softDeletes();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete("set null");
         });
     }
 
@@ -35,6 +35,6 @@ class CreateBookCategoryTable extends Migration
         Schema::table('orders', function (Blueprint $table) {
             $table->dropForeign('orders_user_id_foreign');
         });
-        Schema::dropIfExists('book_category');
+        Schema::dropIfExists('orders');
     }
 }
