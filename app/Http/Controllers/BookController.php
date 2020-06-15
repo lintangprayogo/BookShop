@@ -7,6 +7,7 @@ use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -17,6 +18,15 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if (Gate::allows('manage-books'))
+                return $next($request);
+            abort(403, "You dont have enough permission");
+        });
+    }
     public function index(Request $request)
     {
         $status = $request->status;
@@ -48,13 +58,13 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        Validator::make($request->all(),[
-            "title"=>"required|min:5|max:200",
-            "description"=>"required|min:20|max:1000",
-            "author"=>"required|min:3|max:100",
-            "publisher"=>"required|min:3|max:200",
-            "price"=>"required|digits_between:0,10",
-            "stock"=>"required|digits_between:0,10"
+        Validator::make($request->all(), [
+            "title" => "required|min:5|max:200",
+            "description" => "required|min:20|max:1000",
+            "author" => "required|min:3|max:100",
+            "publisher" => "required|min:3|max:200",
+            "price" => "required|digits_between:0,10",
+            "stock" => "required|digits_between:0,10"
         ])->validate();
 
 
@@ -198,7 +208,8 @@ class BookController extends Controller
         }
     }
 
-    public function restore($id){
+    public function restore($id)
+    {
         $book = Book::withTrashed()->findOrFail($id);
         if ($book->trashed()) {
             $book->restore();

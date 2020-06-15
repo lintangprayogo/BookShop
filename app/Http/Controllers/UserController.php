@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use \App\User;
 use \Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -15,6 +16,15 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if (Gate::allows('manage-users'))
+                return $next($request);
+            abort(403, "You dont have enough permission");
+        });
+    }
     public function index(Request $request)
     {
         //
@@ -59,7 +69,7 @@ class UserController extends Controller
             "name" => "required|min:5|max:100",
             "username" => "required|min:5|max:20",
             "roles" => "required",
-            "phone" => "required|digits_between:10,12",
+            "phone" => "required",
             "address" => "required|min:20|max:200",
             "avatar" => "required",
             "email" => "required|email",
@@ -121,13 +131,12 @@ class UserController extends Controller
         Validator::make($request->all(), [
             "name" => "required|min:5|max:100",
             "roles" => "required",
-            "phone" => "required|digits_between:10,12",
+            "phone" => "required",
             "address" => "required|min:20|max:200",
         ])->validate();
-    
+
         $user = User::findOrFail($id);
         $user->name = $request->name;
-        $user->username = $request->username;
         $user->phone = $request->phone;
         $user->address = $request->address;
         $user->status = $request->status;

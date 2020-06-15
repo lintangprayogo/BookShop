@@ -13,6 +13,7 @@ class AdminSeeder extends Seeder
     {
 
         $faker = Faker\Factory::create();
+        $faker->addProvider(new Faker\Provider\en_US\PhoneNumber($faker));
         for ($i = 0; $i < 10; $i++) {
             echo $faker->name, "\n";
         }
@@ -66,7 +67,7 @@ class AdminSeeder extends Seeder
             $customer->username = $faker->userName;
             $customer->name = $faker->name;
             $customer->email = $faker->email;
-            $customer->roles = json_encode(["STAFF"]);
+            $customer->roles = json_encode(["CUSTOMER"]);
             $customer->password = \Hash::make("12345678");
             $customer->phone = $faker->phoneNumber;
             $customer->avatar = "avatars/blank.png";
