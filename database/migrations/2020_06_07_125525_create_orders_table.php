@@ -20,7 +20,6 @@ class CreateOrdersTable extends Migration
             $table->string("invoice_number");
             $table->enum("status", ['SUBMIT', 'PROCESS', 'FINISH', 'CANCEL']);
             $table->timestamps();
-            $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users')->onDelete("set null");
         });
     }

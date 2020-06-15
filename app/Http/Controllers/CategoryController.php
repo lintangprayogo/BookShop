@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -45,6 +47,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        Validator::make($request->all(), [
+            "name" => "required|min:3|max:20",
+            "image" => "required"
+        ])->validate();
         $name = $request->get('name');
         $new_category = new Category;
         $new_category->name = $name;
@@ -95,10 +101,18 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $category = Category::findOrFail($id);
+        Validator::make($request->all(), [
+            "name" => "required|min:3|max:20",
+            "slug" => [
+              "required",
+              Rule::unique("categories")->ignore($category->slug, "slug")
+            ]
+
+        ])->validate();
+
         $name = $request->name;
         $slug = $request->slug;
-
-        $category = Category::findOrFail($id);
 
         $category->name = $name;
         $category->slug = $slug;
@@ -161,7 +175,7 @@ class CategoryController extends Controller
         } else {
             $category->forceDelete();
             return redirect()->route('categories.index')
-            ->with('status', 'Category permanently deleted');
+                ->with('status', 'Category permanently deleted');
         }
     }
 }

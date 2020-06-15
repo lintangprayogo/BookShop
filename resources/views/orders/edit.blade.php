@@ -37,7 +37,8 @@
     <label for="">Books ({{$order->totalQuantity}}) </label><br>
     <ul>
     @foreach($order->books as $book)
-      <li>{{$book->title}} <b>({{$book->pivot->quantity}})</b></li>
+      <li>{{$book->title}} <b>
+      ({{$book->pivot->quantity}})</b></li>
     @endforeach
     </ul>
 

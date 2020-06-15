@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use \App\User;
 use \Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -17,23 +18,21 @@ class UserController extends Controller
     public function index(Request $request)
     {
         //
-        $keyword=$request->keyword;
-        $status=$request->status;
-  
-        if($keyword){
-            if($status){
-                $users = User::where('id','!=',Auth::id())->where('email','like',"%$keyword%")->where("status",$status)->paginate(10);
-            }else {
-                $users = User::where('id','!=',Auth::id())->where('email','like',"%$keyword%")->paginate(10);
+        $keyword = $request->keyword;
+        $status = $request->status;
+
+        if ($keyword) {
+            if ($status) {
+                $users = User::where('id', '!=', Auth::id())->where('email', 'like', "%$keyword%")->where("status", $status)->paginate(10);
+            } else {
+                $users = User::where('id', '!=', Auth::id())->where('email', 'like', "%$keyword%")->paginate(10);
             }
+        } else if ($status) {
+            $users = User::where('id', '!=', Auth::id())->where('status', $status)->paginate(10);
+        } else {
+            $users = User::where('id', '!=', Auth::id())->paginate(10);
         }
-        else if($status){
-            $users = User::where('id','!=',Auth::id())->where('status',$status)->paginate(10);
-        }
-        else{
-            $users = User::where('id','!=',Auth::id())->paginate(10);
-        }
-        
+
 
         return view('users.index', ['users' => $users]);
     }
@@ -56,6 +55,18 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        Validator::make($request->all(), [
+            "name" => "required|min:5|max:100",
+            "username" => "required|min:5|max:20",
+            "roles" => "required",
+            "phone" => "required|digits_between:10,12",
+            "address" => "required|min:20|max:200",
+            "avatar" => "required",
+            "email" => "required|email",
+            "password" => "required",
+            "password_confirmation" => "required|same:password"
+        ])->validate();
+
         $new_user = new User;
         $new_user->name = $request->name;
         $new_user->username = $request->username;
@@ -80,9 +91,9 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {   
+    {
         $user = User::findOrFail($id);
-        return view("users.detail",["user"=>$user]);
+        return view("users.detail", ["user" => $user]);
     }
 
     /**
@@ -106,12 +117,20 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        Validator::make($request->all(), [
+            "name" => "required|min:5|max:100",
+            "roles" => "required",
+            "phone" => "required|digits_between:10,12",
+            "address" => "required|min:20|max:200",
+        ])->validate();
+    
         $user = User::findOrFail($id);
         $user->name = $request->name;
         $user->username = $request->username;
         $user->phone = $request->phone;
         $user->address = $request->address;
-        $user->status=$request->status;
+        $user->status = $request->status;
         $user->password = Hash::make($request->password);
         $user->roles = json_encode($request->roles);
 
